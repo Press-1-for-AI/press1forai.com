@@ -18,8 +18,11 @@
 # production
 /build
 
-# misc
+# editors / os
 .DS_Store
+.vscode/
+.idea/
+*.log
 *.pem
 
 # debug

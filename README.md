@@ -1,25 +1,59 @@
-# CODING AGENTS: READ THIS FIRST
+# press1forai.com
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Company website for **Press 1 for AI** — a small studio building tactile,
+handheld-first software. Makers of
+[The Button](https://github.com/Press-1-for-AI/TheButton).
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Stack
 
-## What you should do — IMPORTANT
+Next.js 15 (App Router) + React 19 + TypeScript. The homepage is the
+**Switchboard Operator** direction — a retro-CRT amber interface with a
+working DTMF keypad, scrolling ticker, product showcase, shield
+section, and dial-in contact form.
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Local development
 
-**Read `project/index.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+```sh
+npm install
+npm run dev      # http://localhost:3000
+```
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Production build
 
-## About the design files
+```sh
+npm run build
+npm start        # serves .next/ via Node
+```
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Hosting
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+Served from [Hostinger](https://hostinger.com) via their GitHub
+integration — Hostinger pulls this repo's `main` branch on push. Two
+integration options depending on your Hostinger plan:
 
-## Bundle contents
+- **Node.js hosting** — Hostinger runs `npm install && npm run build`
+  and serves `npm start`. Use the default config in this repo.
+- **Static hosting** — add `output: "export"` to `next.config.ts`,
+  then `npm run build` emits a static `out/` folder. Configure
+  Hostinger to publish `out/` (or commit the built `out/` to a
+  separate branch).
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `press1forai.com` project files (HTML prototypes, assets, components)
+## Design archive
+
+Original HTML/JSX prototypes from the Claude Design handoff live under
+`project/` — includes all three explored directions (Switchboard
+Operator, Neo-Brutalist Party Line, Holographic Waveform) and the
+side-by-side design canvas. Kept for reference.
+
+## Files
+
+| Path               | Purpose                                          |
+| ------------------ | ------------------------------------------------ |
+| `app/`             | Next.js App Router entry (`layout`, `page`, CSS) |
+| `components/`      | `AudioToggle` + Switchboard section components   |
+| `lib/sounds.ts`    | Web Audio sound library (DTMF, chimes, etc.)     |
+| `project/`         | Original HTML/JSX design prototypes              |
+
+## Contact
+
+drkim@mdentistry.com
