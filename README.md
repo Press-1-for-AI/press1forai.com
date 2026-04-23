@@ -25,18 +25,23 @@ npm run build
 npm start        # serves .next/ via Node
 ```
 
-## Hosting
+## Hosting — Hostinger Node.js
 
 Served from [Hostinger](https://hostinger.com) via their GitHub
-integration — Hostinger pulls this repo's `main` branch on push. Two
-integration options depending on your Hostinger plan:
+integration — Hostinger pulls this repo's `main` branch on push.
 
-- **Node.js hosting** — Hostinger runs `npm install && npm run build`
-  and serves `npm start`. Use the default config in this repo.
-- **Static hosting** — add `output: "export"` to `next.config.ts`,
-  then `npm run build` emits a static `out/` folder. Configure
-  Hostinger to publish `out/` (or commit the built `out/` to a
-  separate branch).
+In the Hostinger Node.js dashboard, set:
+
+| Setting                  | Value                                  |
+| ------------------------ | -------------------------------------- |
+| Node.js version          | 20.x or newer                          |
+| Application startup file | `server.js`                            |
+| Install command          | `npm install`                          |
+| Build command            | `npm run build`                        |
+| Start command            | `npm start` (runs `node server.js`)    |
+
+`server.js` is a thin wrapper around Next.js's request handler; it
+respects `PORT` and `HOSTNAME` env vars that Hostinger injects.
 
 ## Design archive
 
