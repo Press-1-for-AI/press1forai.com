@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Press 1 for AI — Three Directions</title>
+  <style>html,body{margin:0;padding:0;background:#111;height:100%} *{box-sizing:border-box}</style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "visible": {
+        "d1": true,
+        "d2": true,
+        "d3": true
+      },
+      "layout": "row",
+      "artboardWidth": 1280,
+      "artboardHeight": 900,
+      "startMuted": true
+    }/*EDITMODE-END*/;
+    window.__TWEAKS = JSON.parse(JSON.stringify(TWEAK_DEFAULTS));
+  </script>
+  <script type="text/babel" src="components/design-canvas.jsx"></script>
+  <script type="text/babel" data-presets="react">
+    const DIRECTIONS = [
+      { id: 'd1', num: '①', title: 'Switchboard Operator', tag: 'retro CRT + DTMF keypad', src: 'direction-1.html' },
+      { id: 'd2', num: '②', title: 'Neo-Brutalist Party Line', tag: 'chunky, loud, winking', src: 'direction-2.html' },
+      { id: 'd3', num: '③', title: 'Holographic Waveform', tag: 'iridescent glass + reactive wave', src: 'direction-3.html' },
+    ];
+
+    function SiteFrame({ src }) {
+      return (
+        <iframe src={src}
+          style={{ width: '100%', height: '100%', border: 'none', display: 'block', background: '#000' }}
+          loading="lazy"
+        />
+      );
+    }
+
+    // Tweaks panel
+    function Tweaks({ tweaks, setTweaks, onClose }) {
+      const push = (patch) => {
+        const next = { ...tweaks, ...patch };
+        setTweaks(next);
+        window.parent?.postMessage({ type: '__edit_mode_set_keys', edits: patch }, '*');
+      };
+      const pushVisible = (id, v) => {
+        const visible = { ...tweaks.visible, [id]: v };
+        push({ visible });
+      };
+      const AMBER = '#ffb347';
+      return (
+        <div style={{
+          position: 'fixed', bottom: 20, right: 20, zIndex: 9999,
+          width: 320,
+          background: 'rgba(12,10,8,0.95)',
+          border: `1.5px solid ${AMBER}`,
+          borderRadius: 8,
+          fontFamily: '"JetBrains Mono", "SF Mono", monospace',
+          color: AMBER, padding: 0,
+          boxShadow: `0 20px 60px rgba(0,0,0,0.5), 0 0 30px ${AMBER}33`,
+          backdropFilter: 'blur(12px)',
+        }}>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            padding: '12px 16px', borderBottom: `1px solid #7c5820`,
+            fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase',
+          }}>
+            <span>⚙ Tweaks</span>
+            <button onClick={onClose} style={{
+              background: 'transparent', border: 'none', color: AMBER, cursor: 'pointer',
+              fontSize: 16, padding: 0, lineHeight: 1,
+            }}>×</button>
+          </div>
+          <div style={{ padding: 16, display: 'grid', gap: 18, fontSize: 12 }}>
+            <div>
+              <div style={{ color: '#c77a1f', marginBottom: 8, letterSpacing: '0.15em' }}>VISIBLE DIRECTIONS</div>
+              {DIRECTIONS.map(d => (
+                <label key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '4px 0', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={!!tweaks.visible[d.id]}
+                    onChange={e => pushVisible(d.id, e.target.checked)}
+                    style={{ accentColor: AMBER }}/>
+                  <span>{d.num} {d.title}</span>
+                </label>
+              ))}
+            </div>
+            <div>
+              <div style={{ color: '#c77a1f', marginBottom: 8, letterSpacing: '0.15em' }}>LAYOUT</div>
+              <div style={{ display: 'flex', gap: 6 }}>
+                {[['row','side-by-side'],['stack','stacked']].map(([v,l]) => (
+                  <button key={v} onClick={() => push({ layout: v })} style={{
+                    flex: 1, background: tweaks.layout===v?AMBER:'transparent', color: tweaks.layout===v?'#0a0604':AMBER,
+                    border: `1px solid ${AMBER}`, padding: '8px', fontFamily: 'inherit', fontSize: 11,
+                    letterSpacing: '0.1em', cursor: 'pointer',
+                  }}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div style={{ color: '#c77a1f', marginBottom: 8, letterSpacing: '0.15em' }}>
+                ARTBOARD SIZE · {tweaks.artboardWidth}×{tweaks.artboardHeight}
+              </div>
+              <label style={{ fontSize: 10, color: '#c77a1f' }}>WIDTH
+                <input type="range" min={800} max={1600} step={20}
+                  value={tweaks.artboardWidth}
+                  onChange={e => push({ artboardWidth: +e.target.value })}
+                  style={{ width: '100%', accentColor: AMBER }}/>
+              </label>
+              <label style={{ fontSize: 10, color: '#c77a1f' }}>HEIGHT
+                <input type="range" min={600} max={1400} step={20}
+                  value={tweaks.artboardHeight}
+                  onChange={e => push({ artboardHeight: +e.target.value })}
+                  style={{ width: '100%', accentColor: AMBER }}/>
+              </label>
+            </div>
+            <div style={{ fontSize: 10, color: '#7c5820', letterSpacing: '0.1em', borderTop: '1px dashed #7c5820', paddingTop: 10 }}>
+              CHANGES PERSIST ACROSS RELOADS
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function Root() {
+      const [tweaks, setTweaks] = React.useState(window.__TWEAKS);
+      const [open, setOpen] = React.useState(false);
+
+      React.useEffect(() => {
+        const onMsg = (e) => {
+          if (!e.data) return;
+          if (e.data.type === '__activate_edit_mode') setOpen(true);
+          if (e.data.type === '__deactivate_edit_mode') setOpen(false);
+        };
+        window.addEventListener('message', onMsg);
+        window.parent?.postMessage({ type: '__edit_mode_available' }, '*');
+        return () => window.removeEventListener('message', onMsg);
+      }, []);
+
+      const visibleList = DIRECTIONS.filter(d => tweaks.visible[d.id]);
+
+      return (
+        <>
+          <window.DesignCanvas
+            title="Press 1 for AI — three directions"
+            subtitle="Dark-mode, sound-on, fully interactive. Click expand above any artboard for fullscreen.">
+            <window.DCSection id="sites" title="Full-page directions" subtitle="Each site is a live iframe — scroll within to explore. Turn sound on inside each for the full experience.">
+              {(tweaks.layout === 'stack' ? [visibleList] : visibleList.map(d => [d])).flat().map((d, i) => (
+                <window.DCArtboard
+                  key={d.id}
+                  id={d.id}
+                  label={`${d.num} ${d.title} — ${d.tag}`}
+                  width={tweaks.artboardWidth}
+                  height={tweaks.artboardHeight}>
+                  <SiteFrame src={d.src} />
+                </window.DCArtboard>
+              ))}
+            </window.DCSection>
+          </window.DesignCanvas>
+          {open && <Tweaks tweaks={tweaks} setTweaks={setTweaks} onClose={() => setOpen(false)} />}
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
+  </script>
+</body>
+</html>
