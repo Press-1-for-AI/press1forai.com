@@ -7,9 +7,10 @@ handheld-first software. Makers of
 ## Stack
 
 Next.js 15 (App Router) + React 19 + TypeScript. The homepage is the
-**Switchboard Operator** direction — a retro-CRT amber interface with a
-working DTMF keypad, scrolling ticker, product showcase, shield
-section, and dial-in contact form.
+**Neo-Brutalist Party Line** direction — bold chunky shapes, offset
+shadows, neon pops on black, lowercase winking copy, with a five-app
+showcase, a "your data, your rules" shield section, and a Formspree-backed
+contact form with interest checkboxes.
 
 ## Local development
 
@@ -55,7 +56,7 @@ side-by-side design canvas. Kept for reference.
 | Path               | Purpose                                          |
 | ------------------ | ------------------------------------------------ |
 | `app/`             | Next.js App Router entry (`layout`, `page`, CSS) |
-| `components/`      | `AudioToggle` + Switchboard section components   |
+| `components/`      | `AudioToggle` + Party Line section components    |
 | `lib/sounds.ts`    | Web Audio sound library (DTMF, chimes, etc.)     |
 | `project/`         | Original HTML/JSX design prototypes              |
 

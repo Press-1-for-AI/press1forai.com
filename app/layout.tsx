@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import AudioToggle from "@/components/AudioToggle";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-jetbrains-mono",
+  variable: "--font-space-grotesk",
 });
 
 export const metadata: Metadata = {
-  title:
-    "Press 1 for AI — Software with the intelligence of 2026 and the hold music of 1986",
+  title: "Press 1 for AI — AI that's actually fun.",
   description:
-    "We build AI that works for you — and a shield that keeps it from working against you. Anonyme, The Button Game, and Stockit.",
+    "We build software that thinks faster than your group chat, and a security layer that's smarter than your crypto-bro cousin. Anonyme, The Button Game, Stockit, Mineme, Tiny Limp.",
 };
 
 export default function RootLayout({
@@ -23,10 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jetbrainsMono.variable}>
-      <body>
+    <html lang="en" className={spaceGrotesk.variable}>
+      <body className={spaceGrotesk.className}>
         {children}
-        <AudioToggle theme="amber" position="top-right" />
+        <AudioToggle theme="neon" position="top-right" />
       </body>
     </html>
   );
