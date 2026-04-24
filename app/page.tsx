@@ -1,5 +1,5 @@
-import Switchboard from "@/components/Switchboard";
+import PartyLine from "@/components/PartyLine";
 
 export default function Page() {
-  return <Switchboard />;
+  return <PartyLine />;
 }

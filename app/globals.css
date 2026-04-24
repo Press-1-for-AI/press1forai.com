@@ -2,7 +2,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: #0a0604;
+  background: #0f0f0f;
   min-height: 100%;
 }
 
@@ -10,40 +10,7 @@ body {
   box-sizing: border-box;
 }
 
-@keyframes d1flicker {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  92% {
-    opacity: 0.6;
-  }
-}
-
-.d1-flicker {
-  animation: d1flicker 6s infinite;
-}
-
-@keyframes d1cursor {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.d1-cursor {
-  animation: d1cursor 1s infinite;
-  margin-left: 2px;
-}
-
-@keyframes d1ticker {
+@keyframes d2-marq {
   0% {
     transform: translateX(0);
   }
@@ -52,25 +19,6 @@ body {
   }
 }
 
-.d1-ticker {
-  animation: d1ticker 40s linear infinite;
-}
-
-@keyframes d1pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.d1-dot {
-  animation: d1pulse 1.5s infinite;
-}
-
-.d1-key:hover {
-  background: rgba(255, 179, 71, 0.12) !important;
-  box-shadow: 0 0 12px rgba(255, 179, 71, 0.27) !important;
+.d2-marquee {
+  animation: d2-marq 30s linear infinite;
 }
