@@ -40,7 +40,7 @@ let unlocked = false;
 
 function getCtx(): AudioContext | null {
   if (typeof window === "undefined") return null;
-  if (!ctx) {
+  if (!ctx || ctx.state === "closed") {
     try {
       const Ctor =
         window.AudioContext ||
@@ -51,7 +51,6 @@ function getCtx(): AudioContext | null {
       return null;
     }
   }
-  if (ctx && ctx.state === "suspended") void ctx.resume();
   return ctx;
 }
 
@@ -164,29 +163,42 @@ function lowBoom() {
 
 export function play(name: SoundName, arg?: DtmfKey) {
   if (typeof window === "undefined") return;
-  if (!unlocked) {
-    getCtx();
-    unlocked = true;
-  }
-  switch (name) {
-    case "click":
-      return click();
-    case "softClick":
-      return softClick();
-    case "chime":
-      return chime();
-    case "dial":
-      return dialTone();
-    case "ring":
-      return ringback();
-    case "whoosh":
-      return whoosh();
-    case "blip":
-      return blip();
-    case "boom":
-      return lowBoom();
-    case "dtmf":
-      return arg ? dtmf(arg) : undefined;
+  if (muted) return;
+  const c = getCtx();
+  if (!c) return;
+  unlocked = true;
+
+  const fire = () => {
+    switch (name) {
+      case "click":
+        return click();
+      case "softClick":
+        return softClick();
+      case "chime":
+        return chime();
+      case "dial":
+        return dialTone();
+      case "ring":
+        return ringback();
+      case "whoosh":
+        return whoosh();
+      case "blip":
+        return blip();
+      case "boom":
+        return lowBoom();
+      case "dtmf":
+        return arg ? dtmf(arg) : undefined;
+    }
+  };
+
+  // If the context isn't running (suspended on idle, or never unlocked yet),
+  // resume it first and only schedule the sound after resume resolves —
+  // otherwise the tone gets scheduled against a frozen currentTime and is
+  // silently dropped.
+  if (c.state !== "running") {
+    c.resume().then(fire).catch(() => {});
+  } else {
+    fire();
   }
 }
 
@@ -194,6 +206,11 @@ export function setMuted(v: boolean) {
   muted = !!v;
   if (typeof window !== "undefined") {
     window.localStorage.setItem("p1-muted", muted ? "true" : "false");
+    // On unmute, eagerly nudge the context awake so the next call lands in
+    // a running state.
+    if (!muted && ctx && ctx.state !== "running" && ctx.state !== "closed") {
+      void ctx.resume();
+    }
   }
 }
 

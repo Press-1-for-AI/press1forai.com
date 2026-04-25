@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en" className={spaceGrotesk.variable}>
       <body className={spaceGrotesk.className}>
         {children}
-        <AudioToggle theme="neon" position="top-right" />
+        <AudioToggle theme="neon" position="bottom-right" />
       </body>
     </html>
   );
