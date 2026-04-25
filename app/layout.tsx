@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import AudioToggle from "@/components/AudioToggle";
+import BackgroundMusic from "@/components/BackgroundMusic";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en" className={spaceGrotesk.variable}>
       <body className={spaceGrotesk.className}>
         {children}
+        <BackgroundMusic />
         <AudioToggle theme="neon" position="bottom-right" />
       </body>
     </html>
