@@ -87,6 +87,28 @@ export default function CallSection() {
             }}
           />
         </div>
+        <p
+          style={{
+            marginTop: 16,
+            maxWidth: 640,
+            fontSize: 12,
+            lineHeight: 1.5,
+            color: "rgba(15,15,15,0.75)",
+            fontWeight: 600,
+          }}
+        >
+          your message goes to our inbox via{" "}
+          <a
+            href="https://formspree.io/legal/privacy-policy"
+            target="_blank"
+            rel="noreferrer noopener"
+            style={{ color: BG, textDecoration: "underline" }}
+          >
+            formspree
+          </a>
+          . we don&apos;t share it, sell it, or train AI on it — and we&apos;ll
+          forget you the moment you ask.
+        </p>
       </div>
     </section>
   );
