@@ -42,7 +42,11 @@ const themes: Record<
 const positions: Record<Position, CSSProperties> = {
   "top-right": { top: 20, right: 20 },
   "top-left": { top: 20, left: 20 },
-  "bottom-right": { bottom: 20, right: 20 },
+  // Bumped up from `bottom: 20` so the floating button stops covering the
+  // footer slogan ("made with caffeine + mild paranoia ★") when scrolled
+  // to the very bottom. Footer is ~78px tall; this clears it with breathing
+  // room while still reading as a corner element.
+  "bottom-right": { bottom: 92, right: 20 },
 };
 
 export default function AudioToggle({
