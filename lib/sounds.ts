@@ -37,6 +37,7 @@ let muted =
   typeof window !== "undefined" &&
   window.localStorage.getItem("p1-muted") === "true";
 let unlocked = false;
+const muteListeners = new Set<(muted: boolean) => void>();
 
 function getCtx(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -203,7 +204,9 @@ export function play(name: SoundName, arg?: DtmfKey) {
 }
 
 export function setMuted(v: boolean) {
-  muted = !!v;
+  const next = !!v;
+  if (next === muted) return;
+  muted = next;
   if (typeof window !== "undefined") {
     window.localStorage.setItem("p1-muted", muted ? "true" : "false");
     // On unmute, eagerly nudge the context awake so the next call lands in
@@ -212,8 +215,17 @@ export function setMuted(v: boolean) {
       void ctx.resume();
     }
   }
+  muteListeners.forEach((fn) => fn(muted));
 }
 
 export function isMuted() {
   return muted;
+}
+
+// Subscribe to mute-state changes. Returns an unsubscribe function.
+export function subscribeMuted(fn: (muted: boolean) => void) {
+  muteListeners.add(fn);
+  return () => {
+    muteListeners.delete(fn);
+  };
 }
