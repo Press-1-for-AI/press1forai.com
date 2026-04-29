@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
-import { isMuted, play, setMuted } from "@/lib/sounds";
+import { useSyncExternalStore, type CSSProperties } from "react";
+import { isMuted, play, setMuted, subscribeMuted } from "@/lib/sounds";
 
 type Theme = "amber" | "neon" | "iris";
 type Position = "top-right" | "top-left" | "bottom-right";
@@ -42,10 +42,7 @@ const themes: Record<
 const positions: Record<Position, CSSProperties> = {
   "top-right": { top: 20, right: 20 },
   "top-left": { top: 20, left: 20 },
-  // Bumped up from `bottom: 20` so the floating button stops covering the
-  // footer slogan ("made with caffeine + mild paranoia ★") when scrolled
-  // to the very bottom. Footer is ~78px tall; this clears it with breathing
-  // room while still reading as a corner element.
+  // Lifted clear of the ~78px footer so the button doesn't cover the slogan.
   "bottom-right": { bottom: 92, right: 20 },
 };
 
@@ -56,16 +53,12 @@ export default function AudioToggle({
   theme?: Theme;
   position?: Position;
 }) {
-  // SSR-safe: start muted until hydrated, then sync to persisted state.
-  const [muted, setLocalMuted] = useState(true);
-
-  useEffect(() => {
-    setLocalMuted(isMuted());
-  }, []);
+  // SSR renders the muted state; client subscribes to the global sound store
+  // so the label stays in sync no matter where setMuted is called from.
+  const muted = useSyncExternalStore(subscribeMuted, isMuted, () => true);
 
   const toggle = () => {
     const next = !muted;
-    setLocalMuted(next);
     setMuted(next);
     if (!next) play("chime");
   };

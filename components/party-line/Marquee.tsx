@@ -1,5 +1,3 @@
-"use client";
-
 import { BG, INK, LIME } from "./constants";
 
 const ITEMS = [
@@ -11,8 +9,9 @@ const ITEMS = [
   "press ★ → join us",
 ];
 
+const TRIPLED = [...ITEMS, ...ITEMS, ...ITEMS];
+
 export default function Marquee() {
-  const tripled = [...ITEMS, ...ITEMS, ...ITEMS];
   return (
     <div
       style={{
@@ -35,7 +34,7 @@ export default function Marquee() {
           letterSpacing: "-0.01em",
         }}
       >
-        {tripled.map((t, i) => (
+        {TRIPLED.map((t, i) => (
           <span key={i}>★ {t}</span>
         ))}
       </div>

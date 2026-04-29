@@ -1,5 +1,3 @@
-"use client";
-
 import { BG, INK, IRIS, LIME, PINK, SUN, box } from "./constants";
 
 const CARDS: { t: string; c: string; d: string }[] = [

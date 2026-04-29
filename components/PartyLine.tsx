@@ -1,5 +1,3 @@
-"use client";
-
 import AppsSection from "./party-line/AppsSection";
 import CallSection from "./party-line/CallSection";
 import Footer from "./party-line/Footer";

@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BG, INK, LIME } from "@/components/party-line/constants";
 
 // Tab/bookmark icon — the lime "1" badge from the nav, rotated -5deg.
 export const size = { width: 32, height: 32 };
@@ -11,7 +12,7 @@ export default function Icon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#0f0f0f",
+          background: BG,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -21,12 +22,12 @@ export default function Icon() {
           style={{
             width: 26,
             height: 26,
-            background: "#c6ff3d",
-            border: "2px solid #ffffff",
+            background: LIME,
+            border: `2px solid ${INK}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "#0f0f0f",
+            color: BG,
             fontSize: 20,
             fontWeight: 900,
             fontFamily: "system-ui, sans-serif",

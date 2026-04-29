@@ -74,14 +74,17 @@ const STATUS_BG: Record<Status, string> = {
   "pre-alpha": PINK,
 };
 
+const FEATURED = APPS.filter((a) => a.status !== "pre-alpha");
+const SOON = APPS.filter((a) => a.status === "pre-alpha");
+
 function Card({ a, featured }: { a: App; featured: boolean }) {
   return (
     <div
-      onMouseEnter={() => play("blip")}
-      onMouseOver={(e) => {
+      onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translate(-4px, -4px)";
+        play("blip");
       }}
-      onMouseOut={(e) => {
+      onMouseLeave={(e) => {
         e.currentTarget.style.transform = "none";
       }}
       style={{
@@ -202,9 +205,6 @@ function Card({ a, featured }: { a: App; featured: boolean }) {
 }
 
 export default function AppsSection() {
-  const featured = APPS.filter((a) => a.status !== "pre-alpha");
-  const soon = APPS.filter((a) => a.status === "pre-alpha");
-
   return (
     <section
       id="d2-apps"
@@ -248,7 +248,7 @@ export default function AppsSection() {
             gap: 24,
           }}
         >
-          {featured.map((a) => (
+          {FEATURED.map((a) => (
             <Card key={a.num} a={a} featured />
           ))}
         </div>
@@ -287,7 +287,7 @@ export default function AppsSection() {
             gap: 20,
           }}
         >
-          {soon.map((a) => (
+          {SOON.map((a) => (
             <Card key={a.num} a={a} featured={false} />
           ))}
         </div>
