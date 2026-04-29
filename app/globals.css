@@ -22,3 +22,40 @@ body {
 .d2-marquee {
   animation: d2-marq 30s linear infinite;
 }
+
+@keyframes d2-spin-cw {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes d2-spin-ccw {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes d2-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(16px);
+  }
+  75% {
+    transform: translateY(-16px);
+  }
+}
+
+.d2-spin-cw {
+  animation: d2-spin-cw 11s linear infinite;
+}
+
+.d2-spin-ccw {
+  animation: d2-spin-ccw 11s linear infinite;
+}
+
+.d2-bob {
+  animation: d2-bob 3.8s ease-in-out infinite;
+}

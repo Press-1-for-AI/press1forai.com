@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BG, INK, LIME } from "@/components/party-line/constants";
 
 // iOS / Android home-screen icon — same lime "1" badge, scaled up.
 export const size = { width: 180, height: 180 };
@@ -11,7 +12,7 @@ export default function AppleIcon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#0f0f0f",
+          background: BG,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -21,12 +22,12 @@ export default function AppleIcon() {
           style={{
             width: 140,
             height: 140,
-            background: "#c6ff3d",
-            border: "8px solid #ffffff",
+            background: LIME,
+            border: `8px solid ${INK}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "#0f0f0f",
+            color: BG,
             fontSize: 110,
             fontWeight: 900,
             fontFamily: "system-ui, sans-serif",

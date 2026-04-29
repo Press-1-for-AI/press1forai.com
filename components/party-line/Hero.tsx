@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { play } from "@/lib/sounds";
 import { BG, INK, IRIS, LIME, PINK, SUN, box } from "./constants";
 
@@ -12,13 +11,6 @@ const STATS: { n: string; l: string; c: string }[] = [
 ];
 
 export default function Hero() {
-  const [r, setR] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setR((x) => x + 1), 30);
-    return () => clearInterval(t);
-  }, []);
-
   return (
     <section
       style={{
@@ -29,6 +21,7 @@ export default function Hero() {
     >
       <div
         aria-hidden
+        className="d2-spin-cw"
         style={{
           position: "absolute",
           top: 80,
@@ -37,11 +30,11 @@ export default function Hero() {
           height: 120,
           background: IRIS,
           border: `2px solid ${INK}`,
-          transform: `rotate(${r}deg)`,
         }}
       />
       <div
         aria-hidden
+        className="d2-bob"
         style={{
           position: "absolute",
           top: 120,
@@ -51,13 +44,13 @@ export default function Hero() {
           borderRadius: "50%",
           background: SUN,
           border: `2px solid ${INK}`,
-          transform: `translateY(${Math.sin(r / 20) * 16}px)`,
           pointerEvents: "none",
           zIndex: 0,
         }}
       />
       <div
         aria-hidden
+        className="d2-spin-ccw"
         style={{
           position: "absolute",
           top: 40,
@@ -66,7 +59,6 @@ export default function Hero() {
           height: 60,
           background: PINK,
           border: `2px solid ${INK}`,
-          transform: `rotate(${-r}deg)`,
           clipPath: "polygon(50% 0, 100% 100%, 0 100%)",
         }}
       />
